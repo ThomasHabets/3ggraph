@@ -129,6 +129,8 @@ class Graph3G:
         if m:
             dur, tx, rx, tot,tot2,n6,n7 = map(lambda x: int(x,16), m.groups())
             t = time.time()
+            # NOTE: I know time.time() isn't the best timestamp to use because
+            # of buffering. But "duration" isn't in wall clock time :-(
             return [('DSFLOWRPT-DURATION', t, dur),
                     ('DSFLOWRPT-TX', t, tx),
                     ('DSFLOWRPT-RX', t, rx),
