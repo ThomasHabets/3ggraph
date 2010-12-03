@@ -157,17 +157,6 @@ class Graph3G:
         self.log.flush()
         return self.parse(line)
 
-t = 1
-def getnewdata():
-    global t
-    t = t + 1
-    time.sleep(0.1)
-    return t, int(random.random() * 100)
-
-def drawtest():
-    g = Graph(getnewdata)
-    plt.show()
-    print "lala"
 
 def main():
     g = Graph3G('/dev/ttyUSB1')
