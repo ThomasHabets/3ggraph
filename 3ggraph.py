@@ -19,9 +19,10 @@ class Graph:
         self.ax2 = self.fig.add_subplot(212)
         gobject.idle_add(self.animate)
         self.cb = cb
-        self.width = 100
+        self.width = 120
         self.lines =  self.ax1.plot(*[[]] * (2 * 1))
         self.lines += self.ax2.plot(*[[]] * (2 * 7))
+        self.starttime = time.time()
         self.linemap = {'RSSI':              (self.lines[0], self.ax1, [], []),
                         'DSFLOWRPT-DURATION':(self.lines[1], self.ax2, [], []),
                         'DSFLOWRPT-TX':      (self.lines[2], self.ax2, [], []),
@@ -53,9 +54,10 @@ class Graph:
                 dy = self.delta(dy)
             yva[ax] = yva.get(ax, []) + dy + [0]
 
-        self.ax1.axis([min(xva),max(xva),
+        t = max(self.width, int(time.time() - self.starttime))
+        self.ax1.axis([t-self.width,t,
                        0,max(yva[self.ax1])*2])
-        self.ax2.axis([min(xva),max(xva),
+        self.ax2.axis([t-self.width,t,
                        0,max(yva[self.ax2])*2])
         
 
@@ -71,7 +73,7 @@ class Graph:
             line,ax,xarr,yarr = self.linemap[typ]
             xarr.append(x)
             yarr.append(y)
-            if len(xarr) > self.width:
+            while len(xarr) > self.width:
                 del xarr[0]
                 del yarr[0]
             tx = xarr
@@ -80,7 +82,7 @@ class Graph:
                 tx = xarr[1:]
                 ty = self.delta(yarr)
             if len(tx) != 0:
-                line.set_xdata(tx)
+                line.set_xdata([x-self.starttime for x in tx])
                 line.set_ydata(ty)
                 self.fix_axis()
             self.fig.canvas.draw()
