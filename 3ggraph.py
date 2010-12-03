@@ -1,5 +1,8 @@
 #!/usr/bin/python
-
+#
+# Please excuse the quality of the code. It's at the "oh I just got it
+# to give me a pretty graph" state pre-cleanup.
+#
 import serial
 import time
 import re
