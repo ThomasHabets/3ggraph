@@ -84,8 +84,8 @@ class Graph:
             if len(tx) != 0:
                 line.set_xdata([x-self.starttime for x in tx])
                 line.set_ydata(ty)
-                self.fix_axis()
-            self.fig.canvas.draw()
+        self.fix_axis()
+        self.fig.canvas.draw()
         return True
 
     def run(self):
